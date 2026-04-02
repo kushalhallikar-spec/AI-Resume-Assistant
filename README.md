@@ -1,6 +1,6 @@
 # 🚀 AI Resume Assistant
 
-An intelligent web application that analyzes resumes against job descriptions using Machine Learning and NLP techniques, providing actionable insights to improve candidate-job alignment.
+A Machine Learning + NLP based application that analyzes resumes against job descriptions and provides actionable insights to improve job matching.
 
 ---
 
