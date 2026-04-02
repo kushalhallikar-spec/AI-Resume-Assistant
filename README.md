@@ -75,7 +75,19 @@ AI-Resume-Assistant/
 ├── README.md
 ```
 
+## 📊 Results
+
+- Achieved meaningful match scoring using TF-IDF  
+- Successfully identified skill gaps  
+- Provided actionable resume improvement suggestions  
 ---
+
+## 🧠 Key Learnings
+
+- Importance of text preprocessing in NLP  
+- Feature extraction using TF-IDF  
+- Building end-to-end ML applications  
+- Deploying models using Streamlit
 
 ## 🎯 Future Improvements
 
