@@ -136,7 +136,7 @@ def compute_similarity(text1: str, text2: str) -> float:
 def get_claude_feedback(resume_text: str, job_desc: str, score: float,
                         matched: list, missing: list, api_key: str) -> str:
     """Call Claude API for personalised resume feedback."""
-    client = anthropic.Anthropic(api_key=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)
+    client = anthropic.Anthropic(api_key=api_key)
 
     prompt = f"""You are an expert career coach and ATS specialist. Analyse the resume and job description below and provide actionable, specific feedback.
 
