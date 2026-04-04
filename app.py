@@ -137,7 +137,7 @@ def get_gemini_feedback(resume_text: str, job_desc: str, score: float,
                         matched: list, missing: list, api_key: str) -> str:
     """Call Gemini API for personalised resume feedback."""
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash")
 
     prompt = f"""You are an expert career coach and ATS specialist. Analyse the resume and job description below and provide actionable, specific feedback.
 
