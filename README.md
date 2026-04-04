@@ -12,7 +12,7 @@
 
 ## 📸 Demo
 
-![App Screenshot](Screenshot%202026-04-02%20121105.png)
+![App Screenshot](Screenshot%202026-04-04%20130837.png)
 
 ---
 
