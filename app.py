@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from groq import Groq
 import re
 from utils import extract_text_from_pdf
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -133,11 +133,10 @@ def compute_similarity(text1: str, text2: str) -> float:
         return 0.0
 
 
-def get_gemini_feedback(resume_text: str, job_desc: str, score: float,
-                        matched: list, missing: list, api_key: str) -> str:
-    """Call Gemini API for personalised resume feedback."""
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+def get_groq_feedback(resume_text: str, job_desc: str, score: float,
+                      matched: list, missing: list, api_key: str) -> str:
+    """Call Groq API for personalised resume feedback."""
+    client = Groq(api_key=api_key)
 
     prompt = f"""You are an expert career coach and ATS specialist. Analyse the resume and job description below and provide actionable, specific feedback.
 
@@ -170,8 +169,12 @@ Rewrite one weak area as a strong, metric-driven bullet point.
 
 Keep the tone direct and practical. No generic advice."""
 
-    response = model.generate_content(prompt)
-    return response.text
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=1000
+    )
+    return response.choices[0].message.content
 
 
 # ── Header ─────────────────────────────────────────────────────────────────────
@@ -187,9 +190,9 @@ st.markdown("---")
 # ── Sidebar: API Key ────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ⚙️ Settings")
-    api_key = st.text_input("Google Gemini API Key", type="password",
-                            placeholder="AIza...")
-    st.caption("Get your free key at [aistudio.google.com](https://aistudio.google.com)")
+    api_key = st.text_input("Groq API Key", type="password",
+                            placeholder="gsk_...")
+    st.caption("Get your free key at [console.groq.com](https://console.groq.com)")
     st.markdown("---")
     st.markdown("### 📖 How to Use")
     st.markdown("""
@@ -289,9 +292,9 @@ if analyse_btn:
     st.markdown("---")
     st.markdown('<div class="section-title">🤖 Claude AI Feedback</div>', unsafe_allow_html=True)
 
-    with st.spinner("Gemini AI is reviewing your resume... ✨"):
+    with st.spinner("Groq AI is reviewing your resume... ✨"):
         try:
-            feedback = get_gemini_feedback(
+            feedback = get_groq_feedback(
                 resume_text, job_desc, score,
                 matched_skills, missing_skills, api_key
             )
@@ -306,7 +309,7 @@ if analyse_btn:
 st.markdown("---")
 st.markdown(
     "<p style='text-align:center; color:#4b5268; font-size:0.85rem;'>"
-    "Built by Kushal • Powered by Google Gemini 1.5 Flash • "
+    "Built by Kushal • Powered by Groq (Llama 3.3 70B) • "
     "<a href='https://github.com/kushalhallikar-spec/AI-Resume-Assistant' "
     "style='color:#7c6af7;'>GitHub</a></p>",
     unsafe_allow_html=True
