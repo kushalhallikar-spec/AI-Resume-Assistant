@@ -1,108 +1,148 @@
 # 🚀 AI Resume Assistant
 
-A Machine Learning + NLP based application that analyzes resumes against job descriptions and provides actionable insights to improve job matching.
+> An end-to-end NLP + LLM powered application that analyses your resume against any job description and delivers real-time, actionable feedback to improve your ATS score and job-match quality.
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-red?style=flat-square&logo=streamlit)
+![Groq](https://img.shields.io/badge/LLM-Groq%20%7C%20Llama%203.3%2070B-orange?style=flat-square)
+![NLP](https://img.shields.io/badge/NLP-TF--IDF%20%7C%20Cosine%20Similarity-green?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)
+
+---
+
+## 📸 Demo
+
+![App Screenshot](Screenshot%202026-04-02%20121105.png)
 
 ---
 
 ## 🧠 Overview
 
-This project helps users evaluate how well their resume matches a job description. It extracts relevant skills, computes similarity scores, and provides meaningful feedback to improve resume quality.
+Most job seekers don't know why their resume gets rejected — the AI Resume Assistant solves that. Upload your PDF resume, paste a job description, and get:
+
+- A **TF-IDF cosine similarity match score** between your resume and the JD
+- **60+ skill gap analysis** across ML, cloud, databases, BI tools, and more
+- **LLM-powered personalised feedback** via Groq's Llama 3.3 70B — covering strengths, gaps, quick wins, and a rewritten bullet point example
 
 ---
 
 ## ✨ Features
 
-* 📄 Upload Resume (PDF)
-* 📝 Paste Job Description
-* 🎯 Match Score using TF-IDF & Cosine Similarity
-* 🚨 Missing Skills Detection
-* ✅ Matched Skills Identification
-* 🧠 Smart Feedback System
-* 📊 Clean and interactive UI using Streamlit
+| Feature | Details |
+|---|---|
+| 📄 Resume Parsing | Extracts clean text from PDF using PyPDF2 |
+| 🎯 Match Score | TF-IDF vectorisation + cosine similarity |
+| 🧩 Skill Extraction | Regex-based matching across 60+ technical & soft skills |
+| ✅ Matched Skills | Skills present in both resume and JD |
+| 🚨 Missing Skills | Skills in JD but absent from resume |
+| 💡 Bonus Skills | Extra skills on resume beyond JD requirements |
+| 🤖 LLM Feedback | Groq API (Llama 3.3 70B) — structured, actionable career coaching |
+| 🎨 Dark UI | Custom Streamlit dark theme with skill chips and score circle |
 
 ---
 
 ## ⚙️ Tech Stack
 
-* **Python**
-* **Streamlit**
-* **Scikit-learn**
-* **NLP (TF-IDF, Text Cleaning)**
-* **PyPDF2**
+- **Language:** Python 3.10+
+- **Frontend:** Streamlit (custom dark CSS)
+- **NLP:** Scikit-learn (TF-IDF, Cosine Similarity), Regex
+- **LLM:** Groq API — `llama-3.3-70b-versatile`
+- **PDF Parsing:** PyPDF2
 
 ---
 
 ## 🧩 How It Works
 
-1. Resume is parsed from PDF
-2. Text is cleaned (stopword removal, normalization)
-3. Skills are extracted using predefined skill mapping
-4. TF-IDF vectorization converts text to numerical form
-5. Cosine similarity calculates match score
-6. Missing & matched skills are identified
-7. Smart feedback is generated
-
----
-
-## 📊 Sample Output
-
-* Match Score: 72%
-* Missing Skills: SQL, Machine Learning
-* Matched Skills: Python, Pandas
-* Feedback: Suggestions to improve resume quality
+```
+Resume PDF  ──►  Text Extraction (PyPDF2)
+                        │
+                        ▼
+              Text Cleaning & Normalisation
+                        │
+           ┌────────────┴────────────┐
+           ▼                         ▼
+   Skill Extraction           TF-IDF Vectorisation
+   (60+ keywords,             + Cosine Similarity
+    regex matching)           = Match Score %
+           │                         │
+           └────────────┬────────────┘
+                        ▼
+              Groq LLM (Llama 3.3 70B)
+                        │
+                        ▼
+         Structured Feedback Report:
+         • Overall Assessment
+         • Strengths
+         • Gaps to Address
+         • Quick Wins
+         • Rewritten Resume Bullet
+```
 
 ---
 
 ## 🚀 Run Locally
 
 ```bash
+# 1. Clone the repo
 git clone https://github.com/kushalhallikar-spec/AI-Resume-Assistant.git
 cd AI-Resume-Assistant
+
+# 2. Install dependencies
 pip install -r requirements.txt
+
+# 3. Run the app
 streamlit run app.py
 ```
+
+> **Get your free Groq API key** at [console.groq.com](https://console.groq.com) — no credit card required. Paste it in the app sidebar when prompted.
 
 ---
 
 ## 📁 Project Structure
 
-```text
+```
 AI-Resume-Assistant/
 │
-├── app.py
-├── utils.py
-├── requirements.txt
-├── README.md
+├── app.py              # Main Streamlit app — UI, NLP pipeline, LLM call
+├── utils.py            # PDF text extraction
+├── requirements.txt    # Dependencies
+└── README.md
 ```
 
-## 📊 Results
-
-- Achieved meaningful match scoring using TF-IDF  
-- Successfully identified skill gaps  
-- Provided actionable resume improvement suggestions  
 ---
 
-## 🧠 Key Learnings
+## 📊 Sample Output
 
-- Importance of text preprocessing in NLP  
-- Feature extraction using TF-IDF  
-- Building end-to-end ML applications  
-- Deploying models using Streamlit
+```
+Match Score        : 74%
+Matched Skills     : python, machine learning, pandas, sql, data visualization
+Missing Skills     : docker, mlflow, aws
+Bonus Skills       : tableau, keras, opencv
 
-## 🎯 Future Improvements
+LLM Feedback:
+  ✅ Strong Python + ML fundamentals aligned with the JD
+  ⚠️  No MLOps/deployment skills (Docker, MLflow) — add a project
+  🎯 Quick Win: Add "Deployed X using Streamlit/FastAPI" to project bullets
+```
 
-* Add real-time job scraping
-* Improve skill detection using advanced NLP
-* Integrate LLM for dynamic feedback
-* Export analysis report (PDF)
+---
+
+## 🔮 Future Improvements
+
+- [ ] Export full analysis as PDF report
+- [ ] Real-time job scraping from LinkedIn / Naukri
+- [ ] Resume rewriting suggestions (full section rewrites)
+- [ ] Multi-resume comparison against one JD
 
 ---
 
 ## 👨‍💻 Author
 
-**Kushal**
+**Kushal Hallikar**
 Aspiring Machine Learning Engineer
+
+[![GitHub](https://img.shields.io/badge/GitHub-kushalhallikar--spec-181717?style=flat-square&logo=github)](https://github.com/kushalhallikar-spec)
 
 ---
 
-⭐ If you found this project useful, consider giving it a star!
+⭐ If this project helped you, consider giving it a star — it helps others find it too!
