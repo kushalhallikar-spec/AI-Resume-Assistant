@@ -181,7 +181,6 @@ Keep the tone direct and practical. No generic advice."""
 st.markdown("""
 <div style='text-align:center; padding: 2rem 0 1rem 0;'>
     <h1 style='color:#ffffff; font-size:2.4rem; font-weight:800;'>🚀 AI Resume Assistant</h1>
-    <p style='color:#6b7280; font-size:1rem;'>Powered by Claude AI • Instant ATS Analysis & Feedback</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -290,7 +289,7 @@ if analyse_btn:
 
     # ── Row 2: Claude Feedback ────────────────────────────────────────────────
     st.markdown("---")
-    st.markdown('<div class="section-title">🤖 Claude AI Feedback</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🤖 AI Feedback</div>', unsafe_allow_html=True)
 
     with st.spinner("Groq AI is reviewing your resume... ✨"):
         try:
