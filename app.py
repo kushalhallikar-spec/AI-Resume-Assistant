@@ -1,5 +1,5 @@
 import streamlit as st
-import anthropic
+import google.generativeai as genai
 import re
 from utils import extract_text_from_pdf
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -133,10 +133,11 @@ def compute_similarity(text1: str, text2: str) -> float:
         return 0.0
 
 
-def get_claude_feedback(resume_text: str, job_desc: str, score: float,
+def get_gemini_feedback(resume_text: str, job_desc: str, score: float,
                         matched: list, missing: list, api_key: str) -> str:
-    """Call Claude API for personalised resume feedback."""
-    client = anthropic.Anthropic(api_key=api_key)
+    """Call Gemini API for personalised resume feedback."""
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     prompt = f"""You are an expert career coach and ATS specialist. Analyse the resume and job description below and provide actionable, specific feedback.
 
@@ -169,12 +170,8 @@ Rewrite one weak area as a strong, metric-driven bullet point.
 
 Keep the tone direct and practical. No generic advice."""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=1000,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return message.content[0].text
+    response = model.generate_content(prompt)
+    return response.text
 
 
 # ── Header ─────────────────────────────────────────────────────────────────────
@@ -190,9 +187,9 @@ st.markdown("---")
 # ── Sidebar: API Key ────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ⚙️ Settings")
-    api_key = st.text_input("Anthropic API Key", type="password",
-                            placeholder="sk-ant-...")
-    st.caption("Get your free key at [console.anthropic.com](https://console.anthropic.com)")
+    api_key = st.text_input("Google Gemini API Key", type="password",
+                            placeholder="AIza...")
+    st.caption("Get your free key at [aistudio.google.com](https://aistudio.google.com)")
     st.markdown("---")
     st.markdown("### 📖 How to Use")
     st.markdown("""
@@ -292,15 +289,13 @@ if analyse_btn:
     st.markdown("---")
     st.markdown('<div class="section-title">🤖 Claude AI Feedback</div>', unsafe_allow_html=True)
 
-    with st.spinner("Claude is reviewing your resume... ✨"):
+    with st.spinner("Gemini AI is reviewing your resume... ✨"):
         try:
-            feedback = get_claude_feedback(
+            feedback = get_gemini_feedback(
                 resume_text, job_desc, score,
                 matched_skills, missing_skills, api_key
             )
             st.markdown(f'<div class="feedback-box">{feedback}</div>', unsafe_allow_html=True)
-        except anthropic.AuthenticationError:
-            st.error("❌ Invalid API key. Please check your Anthropic API key in the sidebar.")
         except Exception as e:
             st.error(f"❌ Error getting feedback: {str(e)}")
 
@@ -311,7 +306,7 @@ if analyse_btn:
 st.markdown("---")
 st.markdown(
     "<p style='text-align:center; color:#4b5268; font-size:0.85rem;'>"
-    "Built by Kushal • Powered by Claude AI (claude-sonnet-4-6) • "
+    "Built by Kushal • Powered by Google Gemini 1.5 Flash • "
     "<a href='https://github.com/kushalhallikar-spec/AI-Resume-Assistant' "
     "style='color:#7c6af7;'>GitHub</a></p>",
     unsafe_allow_html=True
